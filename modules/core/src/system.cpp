@@ -159,7 +159,7 @@ std::wstring GetTempFileNameWinRT(std::wstring prefix)
              UINT(g.Data4[2]), UINT(g.Data4[3]), UINT(g.Data4[4]),
              UINT(g.Data4[5]), UINT(g.Data4[6]), UINT(g.Data4[7]));
 
-    return prefix + std::wstring(guidStr);
+    return prefix.append(std::wstring(guidStr));
 }
 
 #endif
@@ -549,7 +549,7 @@ String tempfile( const char* suffix )
     if (temp_file.empty())
         return String();
 
-    temp_file = temp_dir + std::wstring(L"\\") + temp_file;
+    temp_file = temp_dir.append(std::wstring(L"\\")).append(temp_file);
     DeleteFileW(temp_file.c_str());
 
     char aname[MAX_PATH];
