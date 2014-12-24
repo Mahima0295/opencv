@@ -1,5 +1,5 @@
 if(WINRT)
-  ocv_module_disable(cudaimgproc)
+  ocv_module_disable(imgcodecs)
 endif()
 
 set(the_description "Image codecs")
