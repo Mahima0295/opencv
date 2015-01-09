@@ -46,7 +46,6 @@ libs/
 bin/
 obj/
 gen/
-assets/
 local.properties
 
 # Ignore specific winrt files 
