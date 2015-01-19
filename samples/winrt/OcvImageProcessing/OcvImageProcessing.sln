@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencv_imgproc", "..\..\..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\..\..\bin\WS\8.1\x86\3rdparty\zlib\zlib.vcxproj", "{BEFF99E0-89F7-47B5-B506-28894CE49947}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencv_ml", "..\..\..\bin\WS\8.1\x86\modules\ml\opencv_ml.vcxproj", "{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -83,6 +85,14 @@ Global
 		{BEFF99E0-89F7-47B5-B506-28894CE49947}.Release|Win32.ActiveCfg = Release|Win32
 		{BEFF99E0-89F7-47B5-B506-28894CE49947}.Release|Win32.Build.0 = Release|Win32
 		{BEFF99E0-89F7-47B5-B506-28894CE49947}.Release|x64.ActiveCfg = Release|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Debug|ARM.ActiveCfg = Debug|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Debug|Win32.ActiveCfg = Debug|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Debug|Win32.Build.0 = Debug|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Debug|x64.ActiveCfg = Debug|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Release|ARM.ActiveCfg = Release|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Release|Win32.ActiveCfg = Release|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Release|Win32.Build.0 = Release|Win32
+		{03B9F085-9A5E-4FD4-A1AF-89AFDD016385}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
