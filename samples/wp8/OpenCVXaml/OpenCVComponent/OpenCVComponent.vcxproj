@@ -57,7 +57,7 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(ProjectDir)..\..\..\..\binWP8\bin\Debug;$(WP80ToolSetPath)lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(WP80ToolSetPath)lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -140,14 +140,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\binWP8\3rdparty\zlib\zlib.vcxproj">
-      <Project>{edf38e37-3312-47ce-b8ac-aace2073afc6}</Project>
+    <ProjectReference Include="..\..\..\..\bin\WP\8.0\x86\modules\core\opencv_core.vcxproj">
+      <Project>{fe2c3aca-b052-4afa-ac9f-1141a4f6ae80}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\binWP8\modules\core\opencv_core.vcxproj">
-      <Project>{8d3be1f9-3d36-4fc9-8547-7ede3ade73b9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\binWP8\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{a74bb3b0-0e22-4b8b-b0e2-0348f80732b1}</Project>
+    <ProjectReference Include="..\..\..\..\bin\WP\8.0\x86\modules\imgproc\opencv_imgproc.vcxproj">
+      <Project>{bffd9410-e22b-4f45-a911-65281214de31}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>$(Configuration)\</IntDir>
-    <LibraryPath>..\..\..\..\..\binWP8_1\bin\Debug;$(VC_LibraryPath_x86);$(WindowsPhoneSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsPhoneSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(Configuration)\</IntDir>
@@ -153,14 +153,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\binWP8_1\3rdparty\zlib\zlib.vcxproj">
-      <Project>{a7b441a0-6efe-43a6-8af2-82ddc57709b7}</Project>
+    <ProjectReference Include="..\..\..\..\..\bin\WP\8.1\x86\3rdparty\zlib\zlib.vcxproj">
+      <Project>{86740376-e051-4f19-a5b3-09153eacd16a}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\binWP8_1\modules\core\opencv_core.vcxproj">
-      <Project>{6bdc727f-6c6b-4b21-9b4f-19b52d22d009}</Project>
+    <ProjectReference Include="..\..\..\..\..\bin\WP\8.1\x86\modules\core\opencv_core.vcxproj">
+      <Project>{ba939ab7-9a93-4b18-b9da-242a91a7183c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\binWP8_1\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{13fba904-b1b8-4de3-ae7b-d6abaed9e24c}</Project>
+    <ProjectReference Include="..\..\..\..\..\bin\WP\8.1\x86\modules\imgproc\opencv_imgproc.vcxproj">
+      <Project>{9f2063ba-7912-41be-9fbf-8429e6c7ccd0}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

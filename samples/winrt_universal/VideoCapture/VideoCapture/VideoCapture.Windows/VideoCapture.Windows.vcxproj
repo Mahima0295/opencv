@@ -103,7 +103,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>$(Configuration)\</IntDir>
-    <LibraryPath>..\..\..\..\..\binWinRT\bin\Debug;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(Configuration)\</IntDir>
@@ -208,14 +208,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\binWinRT\3rdparty\zlib\zlib.vcxproj">
-      <Project>{656a658b-3ee2-4f94-8899-c65543317d01}</Project>
+    <ProjectReference Include="..\..\..\..\..\bin\WS\8.1\x86\3rdparty\zlib\zlib.vcxproj">
+      <Project>{beff99e0-89f7-47b5-b506-28894ce49947}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\binWinRT\modules\core\opencv_core.vcxproj">
-      <Project>{015a92e7-9fb3-428f-99d0-9b2088c54426}</Project>
+    <ProjectReference Include="..\..\..\..\..\bin\WS\8.1\x86\modules\core\opencv_core.vcxproj">
+      <Project>{f31ddb4f-8f8d-4d6c-b95c-4dea83e7f4b1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\binWinRT\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{1320606c-4689-48f6-b6dd-12ec932c9cef}</Project>
+    <ProjectReference Include="..\..\..\..\..\bin\WS\8.1\x86\modules\imgproc\opencv_imgproc.vcxproj">
+      <Project>{352bb37d-e761-46db-a02c-4bd1c34186e6}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -107,8 +107,8 @@ Function Execute() {
                 # Perform the build
                 Write-Host "Performing build:"
                 Write-Host "    cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers $SRC"
-                cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers $SRC
                 Write-Host "-----------------------------------------------"
+                cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers $SRC
 
                 # REFERENCE:
                 # Executed from '$SRC/bin' folder.
