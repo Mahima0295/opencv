@@ -66,7 +66,7 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(WP80ToolSetPath)lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\..\..\bin\WP\8.0\x86\lib\Debug;$(ProjectDir)..\..\..\..\..\bin\WP\8.0\x86\3rdparty\lib\Debug;$(WP80ToolSetPath)lib;$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,7 +80,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core300d.lib;opencv_imgproc300d.lib;opencv_features2d300d.lib;opencv_flann300d.lib;opencv_ml300d.lib;zlibd.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>ole32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateWindowsMetadata>true</GenerateWindowsMetadata>
     </Link>
@@ -171,21 +171,22 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\bin\WP\8.0\x86\bin\Debug\opencv_core300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\..\bin\WP\8.0\x86\bin\Debug\opencv_features2d300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\..\bin\WP\8.0\x86\bin\Debug\opencv_flann300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\..\bin\WP\8.0\x86\bin\Debug\opencv_imgproc300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\..\bin\WP\8.0\x86\bin\Debug\opencv_ml300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\bin\WP\8.0\x86\modules\core\opencv_core.vcxproj">
-      <Project>{fe2c3aca-b052-4afa-ac9f-1141a4f6ae80}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\bin\WP\8.0\x86\modules\features2d\opencv_features2d.vcxproj">
-      <Project>{16bc2adf-21db-47d2-ae03-2699b7436a9a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\bin\WP\8.0\x86\modules\flann\opencv_flann.vcxproj">
-      <Project>{807eb6ba-ab9f-44bb-95e9-d842458b9ab7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\bin\WP\8.0\x86\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{bffd9410-e22b-4f45-a911-65281214de31}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsPhone\v$(TargetPlatformVersion)\Microsoft.Cpp.WindowsPhone.$(TargetPlatformVersion).targets" />
