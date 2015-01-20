@@ -5,12 +5,6 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhoneTutorial", "PhoneTutorial.vcxproj", "{8BEFFBBF-DF41-4539-86BC-A84722831035}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencv_core", "..\..\..\bin\WP\8.1\x86\modules\core\opencv_core.vcxproj", "{BA939AB7-9A93-4B18-B9DA-242A91A7183C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencv_imgproc", "..\..\..\bin\WP\8.1\x86\modules\imgproc\opencv_imgproc.vcxproj", "{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\..\..\bin\WP\8.1\x86\3rdparty\zlib\zlib.vcxproj", "{86740376-E051-4F19-A5B3-09153EACD16A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -31,24 +25,6 @@ Global
 		{8BEFFBBF-DF41-4539-86BC-A84722831035}.Release|Win32.ActiveCfg = Release|Win32
 		{8BEFFBBF-DF41-4539-86BC-A84722831035}.Release|Win32.Build.0 = Release|Win32
 		{8BEFFBBF-DF41-4539-86BC-A84722831035}.Release|Win32.Deploy.0 = Release|Win32
-		{BA939AB7-9A93-4B18-B9DA-242A91A7183C}.Debug|ARM.ActiveCfg = Debug|Win32
-		{BA939AB7-9A93-4B18-B9DA-242A91A7183C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{BA939AB7-9A93-4B18-B9DA-242A91A7183C}.Debug|Win32.Build.0 = Debug|Win32
-		{BA939AB7-9A93-4B18-B9DA-242A91A7183C}.Release|ARM.ActiveCfg = Release|Win32
-		{BA939AB7-9A93-4B18-B9DA-242A91A7183C}.Release|Win32.ActiveCfg = Release|Win32
-		{BA939AB7-9A93-4B18-B9DA-242A91A7183C}.Release|Win32.Build.0 = Release|Win32
-		{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}.Debug|ARM.ActiveCfg = Debug|Win32
-		{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}.Debug|Win32.Build.0 = Debug|Win32
-		{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}.Release|ARM.ActiveCfg = Release|Win32
-		{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}.Release|Win32.ActiveCfg = Release|Win32
-		{9F2063BA-7912-41BE-9FBF-8429E6C7CCD0}.Release|Win32.Build.0 = Release|Win32
-		{86740376-E051-4F19-A5B3-09153EACD16A}.Debug|ARM.ActiveCfg = Debug|Win32
-		{86740376-E051-4F19-A5B3-09153EACD16A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{86740376-E051-4F19-A5B3-09153EACD16A}.Debug|Win32.Build.0 = Debug|Win32
-		{86740376-E051-4F19-A5B3-09153EACD16A}.Release|ARM.ActiveCfg = Release|Win32
-		{86740376-E051-4F19-A5B3-09153EACD16A}.Release|Win32.ActiveCfg = Release|Win32
-		{86740376-E051-4F19-A5B3-09153EACD16A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

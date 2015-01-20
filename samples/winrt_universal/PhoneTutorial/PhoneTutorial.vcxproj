@@ -67,7 +67,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsPhoneSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\bin\WP\8.1\x86\lib\Debug;$(ProjectDir)..\..\..\bin\WP\8.1\x86\3rdparty\lib\Debug;$(VC_LibraryPath_x86);$(WindowsPhoneSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -89,6 +89,9 @@
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\modules\core\include;$(ProjectDir)..\..\..\modules\imgproc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>opencv_core300d.lib;opencv_imgproc300d.lib;zlibd.lib;WindowsPhoneCore.lib;RuntimeObject.lib;PhoneAppModelHost.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -143,12 +146,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\bin\WP\8.1\x86\modules\core\opencv_core.vcxproj">
-      <Project>{ba939ab7-9a93-4b18-b9da-242a91a7183c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\bin\WP\8.1\x86\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{9f2063ba-7912-41be-9fbf-8429e6c7ccd0}</Project>
-    </ProjectReference>
+    <None Include="..\..\..\bin\WP\8.1\x86\bin\Debug\opencv_core300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\bin\WP\8.1\x86\bin\Debug\opencv_imgproc300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

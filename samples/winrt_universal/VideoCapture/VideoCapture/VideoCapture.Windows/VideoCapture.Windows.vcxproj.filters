@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="VideoCapture.Windows_TemporaryKey.pfx" />
+    <None Include="..\..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_core300d.dll" />
+    <None Include="..\..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_imgproc300d.dll" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-100.png">
