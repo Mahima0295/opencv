@@ -97,7 +97,7 @@
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\..\bin\WS\8.1\x86\lib\Debug;$(ProjectDir)..\..\..\..\bin\WS\8.1\x86\3rdparty\lib\Debug;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -127,7 +127,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core300d.lib;opencv_imgproc300d.lib;opencv_features2d300d.lib;opencv_flann300d.lib;opencv_ml300d.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -185,6 +185,21 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_core300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_features2d300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_flann300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_imgproc300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\..\bin\WS\8.1\x86\bin\Debug\opencv_ml300d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
     <None Include="OcvImageProcessing_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -209,20 +224,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\bin\WS\8.1\x86\modules\core\opencv_core.vcxproj">
-      <Project>{f31ddb4f-8f8d-4d6c-b95c-4dea83e7f4b1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\bin\WS\8.1\x86\modules\features2d\opencv_features2d.vcxproj">
-      <Project>{635b2678-890f-4ddc-ac7e-38a7c38d7e97}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\bin\WS\8.1\x86\modules\flann\opencv_flann.vcxproj">
-      <Project>{8077fecf-bb69-4330-b656-bc076156c936}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\bin\WS\8.1\x86\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{352bb37d-e761-46db-a02c-4bd1c34186e6}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

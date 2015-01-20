@@ -97,7 +97,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(Configuration)\$(MSBuildProjectName)\</OutDir>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\..\..\bin\WS\8.1\x86\lib\Debug;$(ProjectDir)..\..\..\..\..\bin\WS\8.1\x86\3rdparty\lib\Debug;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
@@ -129,7 +129,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mf.lib;mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core300d.lib;opencv_imgproc300d.lib;zlibd.lib;runtimeobject.lib;%(AdditionalDependencies);mf.lib;mfuuid.lib;mfplat.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>OcvTransform.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -307,14 +307,6 @@
   <ItemGroup>
     <_MdMergeOutput Condition="'$(Platform)' == 'Win32'" Include="$(ProjectDir)$(Configuration)\$(MSBuildProjectName)\$(ProjectName).winmd" />
     <_MdMergeOutput Condition="'$(Platform)' != 'Win32'" Include="$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\$(ProjectName).winmd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\bin\WS\8.1\x86\modules\core\opencv_core.vcxproj">
-      <Project>{f31ddb4f-8f8d-4d6c-b95c-4dea83e7f4b1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\bin\WS\8.1\x86\modules\imgproc\opencv_imgproc.vcxproj">
-      <Project>{352bb37d-e761-46db-a02c-4bd1c34186e6}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Target Name="CopyWinmdArtifactsOutputGroup" Returns="@(CopyWinmdArtifactsOutputGroupOutputs)">
     <ItemGroup>
