@@ -23,48 +23,109 @@ Param(
     [parameter(Mandatory=$False)]
     [Array]
     [ValidateNotNull()]
-    [ValidateCount(0, 2)]
-    [ValidateSet("WP","WS")]
-    $PLATFORM = "WP",
+    $PLATFORMS_IN = "WP",
 
     [parameter(Mandatory=$False)]
     [Array]
     [ValidateNotNull()]
-    [ValidateSet("8.1","8.0")]
-    [ValidateCount(0, 2)]
-    $VERSION = "8.1",
+    $VERSIONS_IN = "8.1",
 
     [parameter(Mandatory=$False)]
     [Array]
-    [ValidateSet("x86","x64","ARM")]
     [ValidateNotNull()]
-    [ValidateCount(0, 3)]
-    $ARCHITECTURE = "x86",
+    $ARCHITECTURES_IN = "x86",
 
     [parameter(Mandatory=$False)]
     [String]
-    [ValidateSet("Visual Studio 12 2013","Visual Studio 11 2012")]
     [ValidateNotNull()]
+    [ValidateSet("Visual Studio 12 2013","Visual Studio 11 2012")]
     $GENERATOR = "Visual Studio 12 2013"
 )
+
+
+Function L() {
+    Param(
+        [parameter(Mandatory=$true)]
+        [String]
+        [ValidateNotNull()]
+        $str
+    )
+
+    Write-Host "INFO> $str"
+}
+
+Function D() {
+    Param(
+        [parameter(Mandatory=$true)]
+        [String]
+        [ValidateNotNull()]
+        $str
+    )
+    
+    # Use this trigger to toggle debug output
+    [bool]$debug = $true
+
+    if ($debug) {
+        Write-Host "DEBUG> $str"
+    }
+}
 
 Function Execute() {
     If ($HELP.IsPresent) {
         ShowHelp
     }
 
+    # Validating arguments. 
+    # This type of validation (rather than using ValidateSet()) is required to make .bat wrapper work
+
+    D "Input Platforms: $PLATFORMS_IN" 
+    $platforms = New-Object System.Collections.ArrayList
+    $PLATFORMS_IN.Split("," ,[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach {
+        if ("WP","WS" -Contains $_) {
+            [void]$platforms.Add($_)
+            D "$_ is valid"
+        } else {
+            Throw "$($_) is not valid! Please use WP, WS" 
+        }
+    }
+    D "Processed Platforms: $platforms"
+
+    D "Input Versions: $VERSIONS_IN"
+    $versions = New-Object System.Collections.ArrayList
+    $VERSIONS_IN.Split("," ,[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach {
+        if ("8.0","8.1" -Contains $_) {
+            [void]$versions.Add($_)
+            D "$_ is valid" 
+        } else {
+            Throw "$($_) is not valid! Please use 8.0, 8.1" 
+        }
+    }
+    D "Processed Versions: $versions"
+
+    D "Input Architectures: $ARCHITECTURES_IN"
+    $architectures = New-Object System.Collections.ArrayList
+    $ARCHITECTURES_IN.Split("," ,[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach {
+        if ("x86","x64","ARM" -Contains $_) {
+            $architectures.Add($_) > $null
+            D "$_ is valid"
+        } else {
+            Throw "$($_) is not valid! Please use x86, x64, ARM" 
+        }
+    }
+    D "Processed Architectures: $architectures"
+
     #Assuming we are in '<ocv-sources>/platforms/winrt' we should move up to sources root directory
     Push-Location ../../
         
     $SRC = Get-Location
 
-    $architectures = @{
+    $def_architectures = @{
         "x86" = "";
         "x64" = " Win64"
         "arm" = " ARM"
     }
 
-    foreach($plat in $PLATFORM) {
+    foreach($plat in $platforms) {
         # Set proper platform name.
         $platName = ""
         Switch ($plat) {
@@ -72,26 +133,26 @@ Function Execute() {
             "WS" { $platName = "WindowsStore" }
         }
 
-        foreach($vers in $VERSION) {
+        foreach($vers in $versions) {
 
-            foreach($arch in $ARCHITECTURE) {
+            foreach($arch in $architectures) {
 
                 # Set proper architecture. For MSVS this is done by selecting proper generator
                 $genName = $GENERATOR
                 Switch ($arch) {
-                    "ARM" { $genName = $GENERATOR + $architectures['arm'] }
-                    "x64" { $genName = $GENERATOR + $architectures['x64'] }
+                    "ARM" { $genName = $GENERATOR + $def_architectures['arm'] }
+                    "x64" { $genName = $GENERATOR + $def_architectures['x64'] }
                 }
 
                 $path = "$SRC\bin\$plat\$vers\$arch"
 
-                Write-Host "-----------------------------------------------"
-                Write-Host "Target:"
-                Write-Host "    Directory: $path"
-                Write-Host "    Platform: $platName"
-                Write-Host "    Version: $vers"
-                Write-Host "    Architecture: $arch"
-                Write-Host "    Generator: $genName"
+                L "-----------------------------------------------"
+                L "Target:" 
+                L "    Directory: $path" 
+                L "    Platform: $platName" 
+                L "    Version: $vers"
+                L "    Architecture: $arch"
+                L "    Generator: $genName"
     
                 # Delete target directory if exists to ensure that CMake cache is cleared out.
                 If (Test-Path $path) { 
@@ -105,10 +166,10 @@ Function Execute() {
                 Push-Location -Path $path
 
                 # Perform the build
-                Write-Host "Performing build:"
-                Write-Host "    cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers $SRC"
-                Write-Host "-----------------------------------------------"
+                L "Performing build:" 
+                L "cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers $SRC" 
                 cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers $SRC
+                L "-----------------------------------------------"
 
                 # REFERENCE:
                 # Executed from '$SRC/bin' folder.
@@ -149,27 +210,29 @@ Function ShowHelp() {
     Write-Host "     cmd> PowerShell.exe -ExecutionPolicy Unrestricted -File setup_winrt.ps1 [params]"
     Write-Host "   Parameters:"
     Write-Host "     setup_winrt [platform] [version] [architecture] [generator] "
-    Write-Host "     setup_winrt WP x86,ARM "
+    Write-Host "     setup_winrt WP 'x86,ARM' "
     Write-Host "     setup_winrt -architecture x86 -platform WP "
-    Write-Host "     setup_winrt -arc x86 -plat WP,WS "
+    Write-Host "     setup_winrt -arc x86 -plat 'WP,WS' "
     Write-Host "     setup_winrt -a x86 -g 'Visual Studio 11 2012' -pl WP "
     Write-Host " WHERE: "
     Write-Host "     platform -  Array of target platforms. "
     Write-Host "                 Default: WP "
-    Write-Host "                 Example: WS,WP "
+    Write-Host "                 Example: 'WS,WP' "
     Write-Host "                 Options: WP, WS ('WindowsPhone', 'WindowsStore'). "
+    Write-Host "                 Note that you'll need to use quotes to specify more than one platform. "
     Write-Host "     version - Array of platform versions. "
     Write-Host "                 Default: 8.1 "
-    Write-Host "                 Example: '8.0','8.1' "
+    Write-Host "                 Example: '8.0,8.1' "
     Write-Host "                 Options: 8.0, 8.1. Available options may be limited depending on your local setup (e.g. SDK availability). " 
     Write-Host "                 Note that you'll need to use quotes to specify more than one version. "
     Write-Host "     architecture - Array of target architectures to build for. "
     Write-Host "                 Default: x86 "
-    Write-Host "                 Example: ARM,x64 "
+    Write-Host "                 Example: 'ARM,x64' "
     Write-Host "                 Options: x86, ARM, x64. Available options may be limited depending on your local setup. "
+    Write-Host "                 Note that you'll need to use quotes to specify more than one architecture. "
     Write-Host "     generator - Visual Studio instance used to generate the projects. "
     Write-Host "                 Default: Visual Studio 12 2013 "
-    Write-Host "                 Example: Visual Studio 11 2012 "
+    Write-Host "                 Example: 'Visual Studio 11 2012' "
     Write-Host "                 Use 'cmake --help' to find all available option on your machine. "
 
     Exit
