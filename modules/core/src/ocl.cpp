@@ -60,18 +60,15 @@
 # endif
 #endif
 
-#if defined(HAVE_WINRT)
-const char* getenv(const char* name)
-{
-    return NULL;
-}
-
-#endif
 
 // TODO Move to some common place
 static bool getBoolParameter(const char* name, bool defaultValue)
 {
+#ifdef HAVE_WINRT
+    const char* envValue = NULL;
+#else
     const char* envValue = getenv(name);
+#endif
     if (envValue == NULL)
     {
         return defaultValue;
@@ -2197,6 +2194,7 @@ inline cl_int getStringInfo(Functor f, ObjectType obj, cl_uint name, std::string
     return CL_SUCCESS;
 }
 
+#ifdef HAVE_OPENCL
 static void split(const std::string &s, char delim, std::vector<std::string> &elems)
 {
     elems.clear();
@@ -2237,6 +2235,7 @@ static bool parseOpenCLDeviceConfiguration(const std::string& configurationStr,
     }
     return true;
 }
+#endif
 
 #ifdef HAVE_WINRT
 static cl_device_id selectOpenCLDevice()
