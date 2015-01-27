@@ -64,7 +64,11 @@
 // TODO Move to some common place
 static bool getBoolParameter(const char* name, bool defaultValue)
 {
-#ifdef HAVE_WINRT
+/*
+ * If your system doesn't support getenv(), define NO_GETENV to disable
+ * this feature.
+ */
+#ifdef NO_GETENV
     const char* envValue = NULL;
 #else
     const char* envValue = getenv(name);

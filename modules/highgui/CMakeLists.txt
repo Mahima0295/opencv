@@ -11,8 +11,8 @@ ocv_add_module(highgui opencv_imgproc opencv_imgcodecs opencv_videoio OPTIONAL o
 #   Jose Luis Blanco, 2008
 # ----------------------------------------------------------------------------
 
-# This module is not yet supported by WINRT
-if(HAVE_WINRT_CX AND NOT HAVE_WINRT)
+# Compilation with /ZW is not allowed for *.c files
+if(HAVE_WINRT_CX AND NOT WINRT)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /ZW")
 endif()
 
