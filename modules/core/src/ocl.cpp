@@ -93,7 +93,7 @@ static bool getBoolParameter(const char* name, bool defaultValue)
 // TODO Move to some common place
 static size_t getConfigurationParameterForSize(const char* name, size_t defaultValue)
 {
-#ifdef HAVE_WINRT
+#ifdef NO_GETENV
     const char* envValue = NULL;
 #else
     const char* envValue = getenv(name);
