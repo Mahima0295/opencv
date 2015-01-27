@@ -42,6 +42,12 @@ bin
 
 Build the OpenCV.sln for the particular platform you are targeting. Due to the current limitations of CMake, separate x86 and ARM projects must be generated for each platform.
 
+You can also target a single specific configuration
+    setup_winrt.bat "WP" "8.1" "x86"
+
+Or a subset of configurations
+    setup_winrt.bat "WP,WS" "8.1" "x86"
+
 To display the command line options for setup_winrt.bat 
 	setup_winrt.bat -h
 
