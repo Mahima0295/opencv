@@ -124,6 +124,7 @@ Function Execute() {
     D "Input Platforms: $PLATFORMS_IN" 
     $platforms = New-Object System.Collections.ArrayList
     $PLATFORMS_IN.Split("," ,[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach {
+        $_ = $_.Trim()
         if ("WP","WS" -Contains $_) {
             [void]$platforms.Add($_)
             D "$_ is valid"
@@ -136,6 +137,7 @@ Function Execute() {
     D "Input Versions: $VERSIONS_IN"
     $versions = New-Object System.Collections.ArrayList
     $VERSIONS_IN.Split("," ,[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach {
+        $_ = $_.Trim()
         if ("8.0","8.1" -Contains $_) {
             [void]$versions.Add($_)
             D "$_ is valid" 
@@ -148,6 +150,7 @@ Function Execute() {
     D "Input Architectures: $ARCHITECTURES_IN"
     $architectures = New-Object System.Collections.ArrayList
     $ARCHITECTURES_IN.Split("," ,[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach {
+        $_ = $_.Trim()
         if ("x86","x64","ARM" -Contains $_) {
             $architectures.Add($_) > $null
             D "$_ is valid"
