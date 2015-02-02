@@ -40,7 +40,7 @@ bin
             ARM
             x86		
 
-Build the OpenCV.sln for the particular platform you are targeting. Due to the current limitations of CMake, separate x86 and ARM projects must be generated for each platform.
+Build the OpenCV.sln for the particular platform you are targeting. Due to the current limitations of CMake, separate x86/x64/ARM projects must be generated for each platform.
 
 You can also target a single specific configuration
     setup_winrt.bat "WP" "8.1" "x86"
@@ -50,6 +50,13 @@ Or a subset of configurations
 
 To display the command line options for setup_winrt.bat 
 	setup_winrt.bat -h
+
+Note that x64 CMake generation support is as follows:
+------------------------------
+Platform\Version | 8.0 | 8.1 |
+-----------------|-----|-----|
+Windows Phone    | No  | No  |
+Windows Store    | Yes | Yes |
 
 Note: setup_winrt.bat calls the unsigned PowerShell script with the -ExecutionPolicy Unrestricted option.
 
