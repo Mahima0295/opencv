@@ -21,6 +21,10 @@ Param(
     $HELP,
 
     [parameter(Mandatory=$False)]
+    [switch]
+    $BUILD,
+
+    [parameter(Mandatory=$False)]
     [Array]
     [ValidateNotNull()]
     $PLATFORMS_IN = "WP",
@@ -70,6 +74,45 @@ Function D() {
     }
 }
 
+function Get-Batchfile ($file) {
+    $cmd = "`"$file`" & set"
+    cmd /c $cmd | Foreach-Object {
+        $p, $v = $_.split('=')
+        Set-Item -path env:$p -value $v
+    }
+}
+
+# Enables access to Visual Studio variables via "vsvars32.bat"
+function Set-VS12()
+{
+    Try {
+        $vs12comntools = (Get-ChildItem env:VS120COMNTOOLS).Value
+        $batchFile = [System.IO.Path]::Combine($vs12comntools, "vsvars32.bat")
+        Get-Batchfile $BatchFile
+        [System.Console]::Title = "Visual Studio 2010 Windows PowerShell"
+     } Catch {
+        $ErrorMessage = $_.Exception.Message
+        L "Error: $ErrorMessage"
+        return $false
+     }
+     return $true
+}
+
+# Executes msbuild to build or install projects
+# Throws Exception on error
+function Call-MSBuild($path, $config)
+{
+    $command = "msbuild $path /p:Configuration='$config' /m"
+    L "Executing: $($command)"
+    msbuild $path /p:Configuration="$config" /m
+
+    if(-Not $?) { 
+        Throw "Failure executing command: $($command)"
+    } 
+
+    return $true 
+}
+
 Function Execute() {
     If ($HELP.IsPresent) {
         ShowHelp
@@ -114,7 +157,7 @@ Function Execute() {
     }
     D "Processed Architectures: $architectures"
 
-    #Assuming we are in '<ocv-sources>/platforms/winrt' we should move up to sources root directory
+    # Assuming we are in '<ocv-sources>/platforms/winrt' we should move up to sources root directory
     Push-Location ../../
         
     $SRC = Get-Location
@@ -123,6 +166,12 @@ Function Execute() {
         "x86" = "";
         "x64" = " Win64"
         "arm" = " ARM"
+    }
+
+    # Setting up Visual Studio variables to enable build
+    $shouldBuid = $false
+    If ($BUILD.IsPresent) {
+        $shouldBuild = Set-VS12
     }
 
     foreach($plat in $platforms) {
@@ -165,8 +214,7 @@ Function Execute() {
                 # Change location to the respective subdirectory
                 Push-Location -Path $path
 
-                # Perform the build
-                L "Performing build:" 
+                L "Generating project:"
                 L "cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers -DCMAKE_VS_EFFECTIVE_PLATFORMS:String=$arch $SRC" 
                 cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers -DCMAKE_VS_EFFECTIVE_PLATFORMS:String=$arch $SRC
                 L "-----------------------------------------------"
@@ -174,8 +222,26 @@ Function Execute() {
                 # REFERENCE:
                 # Executed from '$SRC/bin' folder.
                 # Targeting x86 WindowsPhone 8.1.
-                #cmake -G "Visual Studio 12 2013" -DCMAKE_SYSTEM_NAME:String=WindowsPhone -DCMAKE_SYSTEM_VERSION:String=8.1 ..
-    
+                # cmake -G "Visual Studio 12 2013" -DCMAKE_SYSTEM_NAME:String=WindowsPhone -DCMAKE_SYSTEM_VERSION:String=8.1 ..
+
+
+                L "Building and installing project:"
+                Try {
+                    If ($shouldBuild) {
+                        Call-MSBuild "OpenCV.sln" "Debug"
+                        Call-MSBuild "INSTALL.vcxproj" "Debug"
+
+                        Call-MSBuild "OpenCV.sln" "Release"
+                        Call-MSBuild "INSTALL.vcxproj" "Release"
+                    }
+                } Catch {
+                    $ErrorMessage = $_.Exception.Message
+                    L "Error: $ErrorMessage"
+
+                    # Exiting at this point will leave command line pointing at the erroneous configuration directory
+                    exit
+                }
+
                 # Return back to Sources folder
                 Pop-Location
             }
@@ -209,12 +275,15 @@ Function ShowHelp() {
     Write-Host "     cmd> setup_winrt.bat [params]"
     Write-Host "     cmd> PowerShell.exe -ExecutionPolicy Unrestricted -File setup_winrt.ps1 [params]"
     Write-Host "   Parameters:"
-    Write-Host "     setup_winrt [platform] [version] [architecture] [generator] "
-    Write-Host "     setup_winrt WP 'x86,ARM' "
+    Write-Host "     setup_winrt [options] [platform] [version] [architecture] [generator]"
+    Write-Host "     setup_winrt -b 'WP' 'x86,ARM' "
     Write-Host "     setup_winrt -architecture x86 -platform WP "
     Write-Host "     setup_winrt -arc x86 -plat 'WP,WS' "
     Write-Host "     setup_winrt -a x86 -g 'Visual Studio 11 2012' -pl WP "
     Write-Host " WHERE: "
+    Write-Host "     options -  Options to call "
+    Write-Host "                 -h: diplays command line help "
+    Write-Host "                 -b: builds BUILD_ALL and INSTALL projects for each generated configuration in both Debug and Release modes."
     Write-Host "     platform -  Array of target platforms. "
     Write-Host "                 Default: WP "
     Write-Host "                 Example: 'WS,WP' "
