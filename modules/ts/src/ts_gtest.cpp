@@ -4035,14 +4035,16 @@ static std::string PrintTestPartResultToString(
 
 // Prints a TestPartResult.
 static void PrintTestPartResult(const TestPartResult& test_part_result) {
-    std::stringstream s;
   const std::string& result =
       PrintTestPartResultToString(test_part_result);
-  printf("%s\n", result.c_str());
+#ifdef HAVE_WINRT
+  std::stringstream s;
   s << result.c_str() << "\n";
-
-  fflush(stdout);
   Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
+#else
+  printf("%s\n", result.c_str());
+  fflush(stdout);
+#endif
   // If the test program runs in Visual Studio or a debugger, the
   // following statements add the test part result message to the Output
   // window such that the user can double-click on it to jump to the
@@ -4204,10 +4206,13 @@ class PrettyUnitTestResultPrinter : public TestEventListener {
  public:
   PrettyUnitTestResultPrinter() {}
   static void PrintTestName(const char * test_case, const char * test) {
-    printf("%s.%s", test_case, test);
+#ifdef HAVE_WINRT
     std::stringstream s;
     s << test_case << "." << test;
     Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
+#else
+    printf("%s.%s", test_case, test);
+#endif
   }
 
   // The following methods override what's in the TestEventListener class.
@@ -4266,52 +4271,70 @@ void PrettyUnitTestResultPrinter::OnTestIterationStart(
                   unit_test.random_seed());
   }
 
-  ColoredPrintf(COLOR_GREEN,  "[==========] ");
-  printf("Running %s from %s.\n",
-         FormatTestCount(unit_test.test_to_run_count()).c_str(),
-         FormatTestCaseCount(unit_test.test_case_to_run_count()).c_str());
-
+#ifdef HAVE_WINRT
   std::stringstream s;
   s << "[==========] " << "Running " << (FormatTestCount(unit_test.test_to_run_count()).c_str()) << " from " << FormatTestCaseCount(unit_test.test_case_to_run_count()).c_str();
   Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
-  fflush(stdout);}
+#else
+  ColoredPrintf(COLOR_GREEN, "[==========] ");
+  printf("Running %s from %s.\n",
+      FormatTestCount(unit_test.test_to_run_count()).c_str(),
+      FormatTestCaseCount(unit_test.test_case_to_run_count()).c_str());
+  fflush(stdout);
+#endif
+}
 
 void PrettyUnitTestResultPrinter::OnEnvironmentsSetUpStart(
     const UnitTest& /*unit_test*/) {
-  ColoredPrintf(COLOR_GREEN,  "[----------] ");
-  printf("Global test environment set-up.\n");
+#ifdef HAVE_WINRT
   Platform::Details::Console::WriteLine("[----------] Global test environment set-up");
+#else
+  ColoredPrintf(COLOR_GREEN, "[----------] ");
+  printf("Global test environment set-up.\n");
   fflush(stdout);
+#endif
 }
 
 void PrettyUnitTestResultPrinter::OnTestCaseStart(const TestCase& test_case) {
   const std::string counts =
       FormatCountableNoun(test_case.test_to_run_count(), "test", "tests");
-  ColoredPrintf(COLOR_GREEN, "[----------] ");
-  printf("%s from %s", counts.c_str(), test_case.name());
-
+#ifdef HAVE_WINRT
   std::stringstream s;
   s << "[----------] " << counts.c_str() << " from " << test_case.name();
   Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
-
+#else
+  ColoredPrintf(COLOR_GREEN, "[----------] ");
+  printf("%s from %s", counts.c_str(), test_case.name());
+#endif
   if (test_case.type_param() == NULL) {
-      s << "\n";
+#ifdef HAVE_WINRT
+    s << "\n";
+#else
     printf("\n");
+#endif
   } else {
-    printf(", where %s = %s\n", kTypeParamLabel, test_case.type_param());
+#ifdef HAVE_WINRT
     s << ", where " << kTypeParamLabel << " = " << test_case.type_param() << "\n";
+#else
+    printf(", where %s = %s\n", kTypeParamLabel, test_case.type_param());
+#endif
   }
+#ifndef HAVE_WINRT
   fflush(stdout);
+#endif
 }
 
 void PrettyUnitTestResultPrinter::OnTestStart(const TestInfo& test_info) {
-  ColoredPrintf(COLOR_GREEN,  "[ RUN      ] ");
-  //PrintTestName(test_info.test_case_name(), test_info.name());
+#ifdef HAVE_WINRT
   std::stringstream s;
   s << "[ RUN      ] " << test_info.test_case_name() << "." << test_info.name();
   Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
+#else
+  ColoredPrintf(COLOR_GREEN,  "[ RUN      ] ");
+  PrintTestName(test_info.test_case_name(), test_info.name());
   printf("\n");
   fflush(stdout);
+#endif
 }
 
 // Called after an assertion failure.
@@ -4353,26 +4376,32 @@ void PrettyUnitTestResultPrinter::OnTestEnd(const TestInfo& test_info) {
 
 void PrettyUnitTestResultPrinter::OnTestCaseEnd(const TestCase& test_case) {
   if (!GTEST_FLAG(print_time)) return;
-  std::stringstream s;
 
   const std::string counts =
       FormatCountableNoun(test_case.test_to_run_count(), "test", "tests");
+#ifdef HAVE_WINRT
+  std::stringstream s;
+  s << "[----------] " << counts.c_str() << " from " << test_case.name() << " (" <<
+      internal::StreamableToString(test_case.elapsed_time()).c_str() << " ms total)\n";
+  Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
+#else
   ColoredPrintf(COLOR_GREEN, "[----------] ");
   printf("%s from %s (%s ms total)\n\n",
          counts.c_str(), test_case.name(),
          internal::StreamableToString(test_case.elapsed_time()).c_str());
-  s << "[----------] " << counts.c_str() << " from " << test_case.name() << " (" <<
-      internal::StreamableToString(test_case.elapsed_time()).c_str() << " ms total)\n";
-  Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
   fflush(stdout);
+#endif
 }
 
 void PrettyUnitTestResultPrinter::OnEnvironmentsTearDownStart(
     const UnitTest& /*unit_test*/) {
+#ifdef HAVE_WINRT
+    Platform::Details::Console::WriteLine("[----------] Global test environment tear-down\n");
+#else
   ColoredPrintf(COLOR_GREEN,  "[----------] ");
   printf("Global test environment tear-down\n");
-  Platform::Details::Console::WriteLine("[----------] Global test environment tear-down\n");
   fflush(stdout);
+#endif
 }
 
 // Internal helper for printing the list of failed tests.
@@ -4392,50 +4421,65 @@ void PrettyUnitTestResultPrinter::PrintFailedTests(const UnitTest& unit_test) {
       if (!test_info.should_run() || test_info.result()->Passed()) {
         continue;
       }
-      ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
-      printf("%s.%s", test_case.name(), test_info.name());
-      PrintFullTestCommentIfPresent(test_info);
-
+#ifdef HAVE_WINRT
       std::stringstream s;
       s << "[  FAILED  ] " << test_case.name() << "." << test_info.name();
       Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
-
+#else
+      ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
+      printf("%s.%s", test_case.name(), test_info.name());
+      PrintFullTestCommentIfPresent(test_info);
       printf("\n");
+#endif
     }
   }
 }
 
 void PrettyUnitTestResultPrinter::OnTestIterationEnd(const UnitTest& unit_test,
                                                      int /*iteration*/) {
+#ifdef HAVE_WINRT
     std::stringstream s;
+    s << "[==========] " <<
+        FormatTestCount(unit_test.test_to_run_count()).c_str() <<
+        " from " << FormatTestCaseCount(unit_test.test_case_to_run_count()).c_str() << " ran.";
+#else
   ColoredPrintf(COLOR_GREEN,  "[==========] ");
   printf("%s from %s ran.",
          FormatTestCount(unit_test.test_to_run_count()).c_str(),
          FormatTestCaseCount(unit_test.test_case_to_run_count()).c_str());
-  s << "[==========] " <<
-      FormatTestCount(unit_test.test_to_run_count()).c_str() <<
-      " from " << FormatTestCaseCount(unit_test.test_case_to_run_count()).c_str() << " ran.";
+#endif
+
   if (GTEST_FLAG(print_time)) {
+#ifdef HAVE_WINRT
+      s << " (" << internal::StreamableToString(unit_test.elapsed_time()).c_str() << " ms total)";
+#else
     printf(" (%s ms total)",
            internal::StreamableToString(unit_test.elapsed_time()).c_str());
-    s << " (" << internal::StreamableToString(unit_test.elapsed_time()).c_str() << " ms total)";
+#endif
   }
-  printf("\n");
+#ifdef HAVE_WINRT
   s << "\n";
-  ColoredPrintf(COLOR_GREEN,  "[  PASSED  ] ");
   s << "[  PASSED  ] ";
-  printf("%s.\n", FormatTestCount(unit_test.successful_test_count()).c_str());
   s << FormatTestCount(unit_test.successful_test_count()).c_str() << "\n";
-
+#else
+  printf("\n");
+  ColoredPrintf(COLOR_GREEN,  "[  PASSED  ] ");
+  printf("%s.\n", FormatTestCount(unit_test.successful_test_count()).c_str());
+#endif
   int num_failures = unit_test.failed_test_count();
   if (!unit_test.Passed()) {
     const int failed_test_count = unit_test.failed_test_count();
+#ifdef HAVE_WINRT
+    s << "[  FAILED  ] listed below:\n" << FormatTestCount(failed_test_count).c_str();
+    PrintFailedTests(unit_test);
+    Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
+#else
     ColoredPrintf(COLOR_RED,  "[  FAILED  ] ");
     printf("%s, listed below:\n", FormatTestCount(failed_test_count).c_str());
-    s << "[  FAILED  ] listed below:\n" << FormatTestCount(failed_test_count).c_str();
     PrintFailedTests(unit_test);
     printf("\n%2d FAILED %s\n", num_failures,
                         num_failures == 1 ? "TEST" : "TESTS");
+#endif
   }
 
   int num_disabled = unit_test.reportable_disabled_test_count();
@@ -4450,7 +4494,6 @@ void PrettyUnitTestResultPrinter::OnTestIterationEnd(const UnitTest& unit_test,
   }
   // Ensure that Google Test output is printed before, e.g., heapchecker output.
   fflush(stdout);
-  Platform::Details::Console::WriteLine(ref new Platform::String(ctow(s.str().c_str(), s.str().length() + 1)));
 }
 
 // End PrettyUnitTestResultPrinter
