@@ -10,6 +10,7 @@
 #include <Robuffer.h>
 #include <vector>
 #include <opencv2\imgproc\types_c.h>
+#include "../../../modules/imgcodecs/include/opencv2/imgcodecs.hpp"
 
 using namespace OcvImageProcessing;
 
@@ -37,6 +38,15 @@ MainPage::MainPage()
 {
     InitializeComponent();
 
+#ifdef __OPENCV_IMGCODECS_HPP__
+
+    // Image loading OpenCV way ... way more simple
+    Lena = cv::imread("Assets/Lena.png");
+    UpdateImage(Lena);
+
+#else
+
+    // Image loading WinRT way
     RandomAccessStreamReference^ streamRef = RandomAccessStreamReference::CreateFromUri(InputImageUri);
 
     task<IRandomAccessStreamWithContentType^> (streamRef->OpenReadAsync()).
@@ -68,6 +78,8 @@ MainPage::MainPage()
         memcpy(Lena.data, srcPixels->Data, 4*frameWidth*frameHeight);
         UpdateImage(Lena);
     });
+
+#endif
 }
 
 /// <summary>
@@ -91,15 +103,16 @@ void OcvImageProcessing::MainPage::UpdateImage(const cv::Mat& image)
 
     // Obtain IBufferByteAccess
     ComPtr<IBufferByteAccess> pBufferByteAccess;
-    ComPtr<IUnknown> pBuffer((IUnknown*)buffer);
+    ComPtr<IInspectable> pBuffer((IInspectable*)buffer);
     pBuffer.As(&pBufferByteAccess);
 
     // Get pointer to pixel bytes
     pBufferByteAccess->Buffer(&dstPixels);
-    memcpy(dstPixels, image.data, 4*image.cols*image.rows);
+    memcpy(dstPixels, image.data, image.step.buf[1]*image.cols*image.rows);
 
     // Set the bitmap to the Image element
-    PreviewWidget->Source = bitmap;}
+    PreviewWidget->Source = bitmap;
+}
 
 
 cv::Mat OcvImageProcessing::MainPage::ApplyGrayFilter(const cv::Mat& image)
@@ -131,7 +144,7 @@ cv::Mat OcvImageProcessing::MainPage::ApplyFindFeaturesFilter(const cv::Mat& ima
 {
     cv::Mat result;
     cv::Mat intermediateMat;
-	cv::Ptr<cv::FastFeatureDetector> detector = cv::FastFeatureDetector::create(50);
+    cv::Ptr<cv::FastFeatureDetector> detector = cv::FastFeatureDetector::create(50);
     std::vector<cv::KeyPoint> features;
 
     image.copyTo(result);
