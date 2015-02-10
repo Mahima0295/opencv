@@ -41,7 +41,9 @@ MainPage::MainPage()
 #ifdef __OPENCV_IMGCODECS_HPP__
 
     // Image loading OpenCV way ... way more simple
-    Lena = cv::imread("Assets/Lena.png");
+    cv::Mat image = cv::imread("Assets/Lena.png");
+    Lena = cv::Mat(image.rows, image.cols, CV_8UC4);
+    cvtColor(image, Lena, CV_BGR2BGRA);
     UpdateImage(Lena);
 
 #else
