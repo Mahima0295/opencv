@@ -6,6 +6,9 @@ endif()
 
 set(OPENCV_MODULE_TYPE STATIC)
 set(OPENCV_MODULE_IS_PART_OF_WORLD FALSE)
+if(WINRT)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /ZW")
+endif()
 
 ocv_warnings_disable(CMAKE_CXX_FLAGS -Wundef)
 
