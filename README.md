@@ -4,10 +4,13 @@
 
 #### Build notes
 
-1. Go to ```platforms/winrt``` and execute ```>> setup_winrt.bat "WS" "8.1" "x86"```. 
-This will generate all of the files needed to build open_cv projects for selected platform in ```opencv\bin\...```. Open the ```opencv\bin\WS\8.1\x86``` directory and open the ```OpenCV.sln```. Build all of the projects. They should build without errors and *resources.pri* files should be generated in the root directory of every project (```\CMake Build Path\modules\Module Name\```).
-2. In VS add ```resources.pri``` file to corresponding test project using "Add Existing Item" on the ```opencv_test_core``` project and change ```Content``` property to ```True```.
-3. To run the tests right-click on the ```opencv_test_core``` project and choose ```Debug -> Start New Instance```.
+1. You might need to install this if you haven’t already: http://www.microsoft.com/en-US/download/details.aspx?id=40784
+2. Set ```OPENCV_TEST_DATA_PATH``` environment variable to location of ```opencv_extra/testdata``` to get tests work correctly
+3. Go to ```platforms/winrt``` and execute ```>> setup_winrt.bat "WS" "8.1" "x64"```. 
+This will generate all of the files needed to build open_cv projects for selected platform in ```opencv\bin\...```. Open the ```opencv\bin\WS\8.1\x64``` directory and open the ```OpenCV.sln```.
+4. Set OCV solution to Release mode and build all of the projects. They should build without errors and generate executables in “bin\WS\8.1\x64\bin\Release\”
+5.	Put ```msvcr120_app.dll, msvcp120_app.dll, vccorlib120_app.dll``` libraries in that folder (possible location of these dlls is "C:\Windows\vpnplugins\juniper").  It’s important you use libraries built for the same architecture you used in step (3). Otherwise you’ll get “The application was unable to start correctly (0xc000007b)” error
+6. Run opencv_test_{module}.exe via console or as usual by double clicking it. You should see output in the console window
 
 #### Resources
 
