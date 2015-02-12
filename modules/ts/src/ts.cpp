@@ -454,7 +454,7 @@ void TS::init( const string& modulename )
 #ifndef HAVE_WINRT
     char* datapath_dir = getenv("OPENCV_TEST_DATA_PATH");
 #else
-    char* datapath_dir = NULL;
+    char* datapath_dir = OPENCV_TEST_DATA_PATH;
 #endif
 
     if( datapath_dir )
