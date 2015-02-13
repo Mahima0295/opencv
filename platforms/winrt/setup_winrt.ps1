@@ -43,7 +43,11 @@ Param(
     [String]
     [ValidateNotNull()]
     [ValidateSet("Visual Studio 12 2013","Visual Studio 11 2012")]
-    $GENERATOR = "Visual Studio 12 2013"
+    $GENERATOR = "Visual Studio 12 2013",
+
+    [parameter(Mandatory=$False)]
+    [String]
+    $INSTALL
 )
 
 
@@ -65,7 +69,7 @@ Function D() {
         [ValidateNotNull()]
         $str
     )
-    
+
     # Use this trigger to toggle debug output
     [bool]$debug = $true
 
@@ -162,7 +166,7 @@ Function Execute() {
 
     # Assuming we are in '<ocv-sources>/platforms/winrt' we should move up to sources root directory
     Push-Location ../../
-        
+
     $SRC = Get-Location
 
     $def_architectures = @{
@@ -196,19 +200,27 @@ Function Execute() {
                     "x64" { $genName = $GENERATOR + $def_architectures['x64'] }
                 }
 
+                # Constructing path to the install binaries
+                # Creating these binaries will be done by building CMake-generated INSTALL project from Visual Studio
+                $installPath = "$SRC\bin\install\$plat\$vers\$arch"
+                if ($INSTALL) {
+                    # Do not add architrecture to the path since it will be added by OCV CMake logic
+                    $installPath = "$SRC\$INSTALL\$plat\$vers"
+                }
+
                 $path = "$SRC\bin\$plat\$vers\$arch"
-                $install = "$SRC\bin\install\$plat\$vers\$arch"
 
                 L "-----------------------------------------------"
-                L "Target:" 
-                L "    Directory: $path" 
-                L "    Platform: $platName" 
+                L "Target:"
+                L "    Directory: $path"
+                L "    Platform: $platName"
                 L "    Version: $vers"
                 L "    Architecture: $arch"
                 L "    Generator: $genName"
-    
+                L "    Install Directory: $installPath"
+
                 # Delete target directory if exists to ensure that CMake cache is cleared out.
-                If (Test-Path $path) { 
+                If (Test-Path $path) {
                     Remove-Item -Recurse -Force $path
                 }
 
@@ -219,8 +231,8 @@ Function Execute() {
                 Push-Location -Path $path
 
                 L "Generating project:"
-                L "cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers -DCMAKE_VS_EFFECTIVE_PLATFORMS:String=$arch -DCMAKE_INSTALL_PREFIX:PATH=$install $SRC" 
-                cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers -DCMAKE_VS_EFFECTIVE_PLATFORMS:String=$arch -DCMAKE_INSTALL_PREFIX:PATH=$install $SRC
+                L "cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers -DCMAKE_VS_EFFECTIVE_PLATFORMS:String=$arch -DCMAKE_INSTALL_PREFIX:PATH=$installPath $SRC" 
+                cmake -G $genName -DCMAKE_SYSTEM_NAME:String=$platName -DCMAKE_SYSTEM_VERSION:String=$vers -DCMAKE_VS_EFFECTIVE_PLATFORMS:String=$arch -DCMAKE_INSTALL_PREFIX:PATH=$installPath $SRC
                 L "-----------------------------------------------"
 
                 # REFERENCE:
@@ -229,9 +241,11 @@ Function Execute() {
                 # cmake -G "Visual Studio 12 2013" -DCMAKE_SYSTEM_NAME:String=WindowsPhone -DCMAKE_SYSTEM_VERSION:String=8.1 ..
 
 
-                L "Building and installing project:"
+                # Building and installing project
                 Try {
                     If ($shouldBuild) {
+                        L "Building and installing project:"
+
                         Call-MSBuild "OpenCV.sln" "Debug"
                         Call-MSBuild "INSTALL.vcxproj" "Debug"
 
@@ -279,7 +293,7 @@ Function ShowHelp() {
     Write-Host "     cmd> setup_winrt.bat [params]"
     Write-Host "     cmd> PowerShell.exe -ExecutionPolicy Unrestricted -File setup_winrt.ps1 [params]"
     Write-Host "   Parameters:"
-    Write-Host "     setup_winrt [options] [platform] [version] [architecture] [generator]"
+    Write-Host "     setup_winrt [options] [platform] [version] [architecture] [generator] [install-path]"
     Write-Host "     setup_winrt -b 'WP' 'x86,ARM' "
     Write-Host "     setup_winrt -architecture x86 -platform WP "
     Write-Host "     setup_winrt -arc x86 -plat 'WP,WS' "
@@ -307,6 +321,9 @@ Function ShowHelp() {
     Write-Host "                 Default: Visual Studio 12 2013 "
     Write-Host "                 Example: 'Visual Studio 11 2012' "
     Write-Host "                 Use 'cmake --help' to find all available option on your machine. "
+    Write-Host "     install-path - Path to install binaries (relative to the sources directory). "
+    Write-Host "                 Default: <src-dir>\bin\install\<platform>\<version>\<architecture> "
+    Write-Host "                 Example: '../install' "
 
     Exit
 }
