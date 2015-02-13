@@ -64,7 +64,15 @@
 // TODO Move to some common place
 static bool getBoolParameter(const char* name, bool defaultValue)
 {
+/*
+ * If your system doesn't support getenv(), define NO_GETENV to disable
+ * this feature.
+ */
+#ifdef NO_GETENV
+    const char* envValue = NULL;
+#else
     const char* envValue = getenv(name);
+#endif
     if (envValue == NULL)
     {
         return defaultValue;
@@ -85,7 +93,7 @@ static bool getBoolParameter(const char* name, bool defaultValue)
 // TODO Move to some common place
 static size_t getConfigurationParameterForSize(const char* name, size_t defaultValue)
 {
-#ifdef HAVE_WINRT
+#ifdef NO_GETENV
     const char* envValue = NULL;
 #else
     const char* envValue = getenv(name);
@@ -2190,6 +2198,7 @@ inline cl_int getStringInfo(Functor f, ObjectType obj, cl_uint name, std::string
     return CL_SUCCESS;
 }
 
+#ifdef HAVE_OPENCL
 static void split(const std::string &s, char delim, std::vector<std::string> &elems)
 {
     elems.clear();
@@ -2230,6 +2239,7 @@ static bool parseOpenCLDeviceConfiguration(const std::string& configurationStr,
     }
     return true;
 }
+#endif
 
 #ifdef HAVE_WINRT
 static cl_device_id selectOpenCLDevice()
