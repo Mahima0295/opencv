@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VideoCapture.Windows", "VideoCapture\VideoCapture.Windows\VideoCapture.Windows.vcxproj", "{7129CD05-4CBD-40D2-A454-3568C0058A58}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VideoCapture.WindowsPhone", "VideoCapture\VideoCapture.WindowsPhone\VideoCapture.WindowsPhone.vcxproj", "{A067307F-714D-453B-9DC9-2A0A7144DD72}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VideoCapture.Shared", "VideoCapture\VideoCapture.Shared\VideoCapture.Shared.vcxitems", "{180DC8DA-322C-484F-AABC-59FC89FEE848}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		VideoCapture\VideoCapture.Shared\VideoCapture.Shared.vcxitems*{a067307f-714d-453b-9dc9-2a0a7144dd72}*SharedItemsImports = 4
+		VideoCapture\VideoCapture.Shared\VideoCapture.Shared.vcxitems*{7129cd05-4cbd-40d2-a454-3568c0058a58}*SharedItemsImports = 4
+		VideoCapture\VideoCapture.Shared\VideoCapture.Shared.vcxitems*{180dc8da-322c-484f-aabc-59fc89fee848}*SharedItemsImports = 9
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|ARM = Release|ARM
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|ARM.ActiveCfg = Debug|ARM
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|ARM.Build.0 = Debug|ARM
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|ARM.Deploy.0 = Debug|ARM
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|Win32.Build.0 = Debug|Win32
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|Win32.Deploy.0 = Debug|Win32
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|x64.ActiveCfg = Debug|x64
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|x64.Build.0 = Debug|x64
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Debug|x64.Deploy.0 = Debug|x64
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|ARM.ActiveCfg = Release|ARM
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|ARM.Build.0 = Release|ARM
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|ARM.Deploy.0 = Release|ARM
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|Win32.ActiveCfg = Release|Win32
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|Win32.Build.0 = Release|Win32
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|Win32.Deploy.0 = Release|Win32
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|x64.ActiveCfg = Release|x64
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|x64.Build.0 = Release|x64
+		{7129CD05-4CBD-40D2-A454-3568C0058A58}.Release|x64.Deploy.0 = Release|x64
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|ARM.Build.0 = Debug|ARM
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|ARM.Deploy.0 = Debug|ARM
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|Win32.Build.0 = Debug|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|Win32.Deploy.0 = Debug|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Debug|x64.ActiveCfg = Debug|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|ARM.ActiveCfg = Release|ARM
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|ARM.Build.0 = Release|ARM
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|ARM.Deploy.0 = Release|ARM
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|Win32.ActiveCfg = Release|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|Win32.Build.0 = Release|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|Win32.Deploy.0 = Release|Win32
+		{A067307F-714D-453B-9DC9-2A0A7144DD72}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
