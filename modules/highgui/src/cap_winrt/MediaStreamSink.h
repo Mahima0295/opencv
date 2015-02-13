@@ -3,7 +3,7 @@
 // Microsoft Windows Media Foundation
 // Copyright (C) Microsoft Corporation. All rights reserved.
 //
-// Portions Copyright (c) Microsoft Open Technologies, Inc. 
+// Portions Copyright (c) Microsoft Open Technologies, Inc.
 //
 //*@@@---@@@@******************************************************************
 
@@ -24,8 +24,8 @@ class MediaStreamSink WrlSealed :
 public:
 
     MediaStreamSink(
-        __in const MW::ComPtr<IMFMediaSink>& sink, 
-        __in DWORD id, 
+        __in const MW::ComPtr<IMFMediaSink>& sink,
+        __in DWORD id,
         __in const MW::ComPtr<IMFMediaType>& mt,
         __in MediaSampleHandler^ sampleHandler
     );

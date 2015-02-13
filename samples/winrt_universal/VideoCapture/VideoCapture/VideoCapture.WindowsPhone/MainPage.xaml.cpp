@@ -24,7 +24,7 @@ using namespace Windows::Graphics::Display;
 
 MainPage::MainPage()
 {
-	InitializeComponent();
+    InitializeComponent();
     Windows::UI::ViewManagement::StatusBar::GetForCurrentView()->HideAsync();
     Application::Current->DebugSettings->EnableFrameRateCounter = false;
     DisplayInformation::AutoRotationPreferences = DisplayOrientations::Landscape;
@@ -37,7 +37,7 @@ MainPage::MainPage()
 /// property is typically used to configure the page.</param>
 void MainPage::OnNavigatedTo(NavigationEventArgs^ e)
 {
-	(void) e;	// Unused parameter
+    (void) e;	// Unused parameter
 
 
     m_main = std::unique_ptr<AppMain>(new AppMain(Preview));

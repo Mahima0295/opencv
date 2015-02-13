@@ -39,9 +39,9 @@ public:
         {
             CHK(MFCreateMediaTypeFromProperties(As<IUnknown>(audioProps).Get(), &audioMT));
             _audioStreamSink = MW::Make<MediaStreamSink>(
-                this, 
-                c_audioStreamSinkId, 
-                audioMT, 
+                this,
+                c_audioStreamSinkId,
+                audioMT,
                 audioSampleHandler
                 );
         }
@@ -51,9 +51,9 @@ public:
         {
             CHK(MFCreateMediaTypeFromProperties(As<IUnknown>(videoProps).Get(), &videoMT));
             _videoStreamSink = MW::Make<MediaStreamSink>(
-                this, 
-                c_videoStreamSinkId, 
-                videoMT, 
+                this,
+                c_videoStreamSinkId,
+                videoMT,
                 videoSampleHandler
                 );
         }
@@ -125,8 +125,8 @@ public:
     }
 
     IFACEMETHODIMP AddStreamSink(
-        DWORD /*streamSinkIdentifier*/, 
-        _In_ IMFMediaType * /*mediaType*/, 
+        DWORD /*streamSinkIdentifier*/,
+        _In_ IMFMediaType * /*mediaType*/,
         _COM_Outptr_ IMFStreamSink **streamSink
         )
     {

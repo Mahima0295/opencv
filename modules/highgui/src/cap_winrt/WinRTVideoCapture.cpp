@@ -3,7 +3,7 @@
 // Microsoft Windows Media Foundation
 // Copyright (C) Microsoft Corporation. All rights reserved.
 //
-// Portions Copyright (c) Microsoft Open Technologies, Inc. 
+// Portions Copyright (c) Microsoft Open Technologies, Inc.
 //
 //*@@@---@@@@******************************************************************
 
@@ -82,5 +82,3 @@ void WinRTVideoCapture::GrabFrameAsync(::Media::CaptureFrameGrabber^ frameGrabbe
         // grab another frame
         GrabFrameAsync(frameGrabber);
     }, task_continuation_context::use_current());
-}
-

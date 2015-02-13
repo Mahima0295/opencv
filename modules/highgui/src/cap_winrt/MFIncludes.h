@@ -151,4 +151,3 @@ internal:
 };
 
 delegate void MediaSampleHandler(MediaSample^ sample);
-
